@@ -42,7 +42,7 @@ int main() {
     while (winner(board) == NO_ONE) {
         // if it's human's turn
         if (turn == human) {
-            move == humanMove(board, human);
+            move = humanMove(board, human);
             board[move] = human;
         }
         // if it's computer's move
@@ -107,11 +107,11 @@ char opponent(char peace) {
     else return X;
 }
 void displayBoard(const vector<char>& board) {
-    cout << "\n\t" << board[1] << " | " << board[2] << " | " << board[3];
+    cout << "\n\t" << board[0] << " | " << board[1] << " | " << board[2];
     cout << endl << endl;
-    cout << "\n\t" << board[4] << " | " << board[5] << " | " << board[6];
+    cout << "\n\t" << board[3] << " | " << board[4] << " | " << board[5];
     cout << endl << endl;
-    cout << "\n\t" << board[7] << " | " << board[8] << " | " << board[9];
+    cout << "\n\t" << board[6] << " | " << board[7] << " | " << board[8];
     cout << endl << endl;
 }
 char winner(const vector<char>& board) {
@@ -135,7 +135,6 @@ char winner(const vector<char>& board) {
             && board[WINNING_ROWS[row][2]] == board[WINNING_ROWS[row][3]]{
                 return board[WINNING_ROWS[row][0]];
         }
-    }
 
     // if there is no winner, checking if there a tie
     if (count(board.begin(), board.end(), EMPTY) == 0) {
@@ -154,7 +153,7 @@ int humanMove(const vector<char> board, char human) {
     int move = askNumber("Where will you move?", 1, 6);
     while (!isLegal(board, move)) {
         cout << "\nThat square is already occuped foolish human.";
-        int move = askNumber("Where will you move?", 1, 6);
+        move = askNumber("Where will you move?", 1, 6);
     }
     cout << "Fine..." << endl;
     return move;
@@ -170,7 +169,7 @@ int computerMove(const vector<char> board, char computer) {
         if (isLegal(board, move)) {
             board[move] = computer;
             found = winner(board) == computer;
-            board[move] == EMPTY;
+            board[move] = EMPTY;
         }
         if (!found) {
             move++;
