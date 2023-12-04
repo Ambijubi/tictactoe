@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include <vector> 
+#include <vector>
 #include <algorithm>
 using namespace std;
 
@@ -14,14 +14,14 @@ const char NO_ONE = 'N';
 // function prototypes
 void instructions();
 char askYesNo(string question);
-char AskNumber(string question, int high, int low = 0);
+int askNumber(string question, int high, int low = 0);
 char humanPiece();
-char opponent(char peace);
+char opponent(char piece);
 void displayBoard(const vector<char>& board);
 char winner(const vector<char>& board);
-bool isLegal(const vector<char>board, int move);
-int humanMove(const vector<char> board, char human);
-int computerMove(const vector<char> board, char computer);
+bool isLegal(const vector<char>& board, int move);
+int humanMove(const vector<char>& board, char human);
+int computerMove(vector<char> board, char computer);
 void announceWinner(char winner, char computer, char human);
 
 //Main function
@@ -35,7 +35,7 @@ int main() {
     char human = humanPiece();
     char computer = opponent(human);
     char turn = X;
-    
+
     displayBoard(board);
 
     // While no one won or tie
@@ -80,11 +80,13 @@ char askYesNo(string question) {
 
     return response;
 }
-char askNumber(string question, int high, int low) {
+
+int askNumber(string question, int high, int low)
+{
     int number;
-    // asking question until human answers 'y' or 'n' :P
-    do {
-        cout << question << " (" << low << "-" << high << " ): ";
+    do
+    {
+        cout << question << " (" << low << " – " << high << "): ";
         cin >> number;
     } while (number > high || number < low);
 
@@ -93,8 +95,9 @@ char askNumber(string question, int high, int low) {
 char humanPiece() {
     // Will be human require the first move or not?
     char go_first = askYesNo("Do you require the first move?");
-    if (go_first == 'y') {
-        cout << "\nThen take the first move, you will need it." << endl;
+    if (go_first == 'y')
+    {
+        cout << "\nThen take the first move. You will need it.\n";
         return X;
     }
     else {
@@ -125,28 +128,28 @@ char winner(const vector<char>& board) {
         {2, 5, 8},
         {0, 4, 8},
         {2, 4, 6}
-    }
+    };
 
     const int TOTAL_ROWS = 8;
 
     for (int row = 0; row < TOTAL_ROWS; row++) {
-        if (board[WINNING_ROWS[row][0]] != EMPTY &&
-            board[WINNING_ROWS[row][0]] == board[WINNING_ROWS[row][1]])
-            && board[WINNING_ROWS[row][2]] == board[WINNING_ROWS[row][3]]{
-                return board[WINNING_ROWS[row][0]];
+        if ((board[WINNING_ROWS[row][0]] != EMPTY) &&
+            (board[WINNING_ROWS[row][0]] == board[WINNING_ROWS[row][1]])
+            && (board[WINNING_ROWS[row][2]] == board[WINNING_ROWS[row][3]])) {
+            return board[WINNING_ROWS[row][0]];
         }
 
-    // if there is no winner, checking if there a tie
-    if (count(board.begin(), board.end(), EMPTY) == 0) {
-        return TIE;
+        // if there is no winner, checking if there a tie
+        if (count(board.begin(), board.end(), EMPTY) == 0) {
+            return TIE;
+        }
+
+        // if there is no winner and no tie, game continues
+        return NO_ONE;
     }
 
-    // if there is no winner and no tie, game continues
-    return NO_ONE;
-}
-
-inline bool isLegal(const vector<char>board, int move) {
-    return board[move] == EMPTY;
+    inline bool isLegal(int move, const vector<char> &board)
+        return (board[move] == EMPTY);
 }
 
 int humanMove(const vector<char> board, char human) {
@@ -159,7 +162,7 @@ int humanMove(const vector<char> board, char human) {
     return move;
 }
 
-int computerMove(const vector<char> board, char computer) {
+int computerMove(const vector<char>& board, char computer) {
     unsigned int move = 0;
     bool found = false;
 
@@ -186,12 +189,12 @@ int computerMove(const vector<char> board, char computer) {
             if (isLegal(board, move)) {
                 board[move] = human;
                 found = winner(board) == human;
-                board[move] == EMPTY;
+                board[move] = EMPTY;
             }
             if (!found) {
                 move++;
             }
-        }
+        };
     }
 
     // else, make the most optimal move
@@ -230,6 +233,7 @@ void announceWinner(char winner, char computer, char human) {
         cout << "Celebrate...for this is the best you will ever achieve..." << endl;
     }
 }
+
 
 
 
